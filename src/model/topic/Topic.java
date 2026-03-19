@@ -7,7 +7,9 @@ import model.Course.Course;
 
 public abstract class Topic {
     private List<Task> tasks;
-    private Course godCourse;
+    private Course godCourse;    
+    private Module godModule;
 
+    private boolean visibility;
     
 }
