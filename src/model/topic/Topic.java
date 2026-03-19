@@ -7,9 +7,30 @@ import model.Course.Course;
 
 public abstract class Topic {
     private List<Task> tasks;
-    private Course godCourse;    
-    private Module godModule;
-
     private boolean visibility;
+
+    private Course godCourse;    
+    private Module godModule;    
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void addTasks(Task task) {
+        tasks.add(task);
+    }
+
+    public void removeTask(Task task) {
+        tasks.remove(task);
+    }
+
+
+    public boolean getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(boolean visibility) {
+        this.visibility = visibility;
+    }
     
 }

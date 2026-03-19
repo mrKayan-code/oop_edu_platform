@@ -1,4 +1,4 @@
-package model.task.algorythmic;
+package model.task.algorithmic;
 
 public enum ProgrammingLang {
     CPP,
