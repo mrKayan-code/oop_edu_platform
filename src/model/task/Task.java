@@ -7,6 +7,10 @@ public abstract class Task {
     private String example;
     private Topic godTopic;
 
+    public Task(Topic godTopic) {
+        this.godTopic = godTopic;
+    }
+
     public String getTaskText() {
         return taskText;
     }

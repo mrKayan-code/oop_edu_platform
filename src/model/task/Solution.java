@@ -4,6 +4,10 @@ public class Solution {
     private Task task;
     private String solutionText;
     
+    public Solution(Task task) {
+        this.task = task;
+    }
+    
     public Task getTask() {
         return task;
     }

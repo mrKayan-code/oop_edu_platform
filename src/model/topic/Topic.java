@@ -12,6 +12,11 @@ public abstract class Topic {
     private Course godCourse;    
     private Module godModule;    
 
+    public Topic(Course godCourse, Module godModule) {
+        this.godCourse = godCourse;
+        this.godModule = godModule;
+    }
+
     public List<Task> getTasks() {
         return tasks;
     }
