@@ -1,12 +1,12 @@
-package model.task.repository;
+package model.task.with_repository;
 
 import model.task.Task;
 import model.topic.Topic;
 
-public class TaskWithReposytory extends Task {
+public class TaskWithRepository extends Task {
     private String repositoryLink;
 
-    public TaskWithReposytory(Topic godTopic) {
+    public TaskWithRepository(Topic godTopic) {
         super(godTopic);
     }
 
