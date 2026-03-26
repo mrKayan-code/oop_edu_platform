@@ -1,41 +1,90 @@
 package model.topic;
 
-import java.util.List;
-import model.task.Task;
 import model.Course.Course;
+import model.task.Task;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
 
+import interfaces.Identifiable;
+import interfaces.Named;
 
-public abstract class Topic {
-    private List<Task> tasks;
+public abstract class Topic implements Named, Identifiable {
+    private final UUID id;
+    private String name;
+    private final List<Task> tasks;
     private boolean visibility;
+    
 
-    private Course godCourse;    
-    private Module godModule;    
+    private Course godCourse;
+    private Module godModule;
 
-    public Topic(Course godCourse, Module godModule) {
-        this.godCourse = godCourse;
-        this.godModule = godModule;
+    public Topic(String name) {
+        this.id = UUID.randomUUID();
+        this.name = name;
+        this.tasks = new ArrayList<>();
+        this.visibility = true;
+    }
+
+    @Override
+    public UUID getId() {
+        return id;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 
     public List<Task> getTasks() {
-        return tasks;
+        return Collections.unmodifiableList(tasks);
     }
-
-    public void addTasks(Task task) {
-        tasks.add(task);
-    }
-
-    public void removeTask(Task task) {
-        tasks.remove(task);
-    }
-
 
     public boolean getVisibility() {
         return visibility;
     }
 
+    public Course getGodCourse() {
+        return godCourse;
+    }
+
+    public Module getGodModule() {
+        return godModule;
+    }
+
+    @Override
+    public void setName(String name) {
+        if (name != null && !name.isBlank()) {
+            this.name = name;
+        }
+    }
+
     public void setVisibility(boolean visibility) {
         this.visibility = visibility;
     }
-    
+
+    public void setGodCourse(Course godCourse) {
+        this.godCourse = godCourse;
+    }
+
+    public void setGodModule(Module godModule) {
+        this.godModule = godModule;
+    }
+
+    public void addTask(Task task) {
+        if (task != null && !tasks.contains(task)) {
+            tasks.add(task);
+
+            task.setGodTopic(this);
+        }
+    }
+
+    public void removeTask(Task task) {
+        if (task != null) {
+            tasks.remove(task);
+            
+            task.setGodTopic(null);
+        }
+    }
 }
