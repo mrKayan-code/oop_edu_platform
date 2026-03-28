@@ -1,15 +1,17 @@
 package model.task.quiz;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import model.task.Task;
-import model.topic.Topic;
 
 public class QuizTask extends Task {
-    private List<Question> questions;
+    private final List<Question> questions;
 
-    public QuizTask(Topic godTopic) {
-        super(godTopic);
+    public QuizTask(String name) {
+        super(name);
+
+        questions = new ArrayList<>();
     }
 
     public List<Question> getQuestions() {
@@ -22,6 +24,18 @@ public class QuizTask extends Task {
 
     public void removeQuestion(Question question) {
         questions.remove(question);
+    }
+
+    @Override
+    public void mergeFrom(Task other) {
+        super.mergeFrom(other);
+        
+        if (!(other instanceof QuizTask)) {
+            return;
+        }
+
+        // QuizTask quiz = (QuizTask) other;
+
     }
 
 }

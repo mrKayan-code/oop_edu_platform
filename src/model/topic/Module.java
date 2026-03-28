@@ -2,13 +2,11 @@ package model.topic;
 
 import java.util.List;
 
-import model.Course.Course;
-
 public class Module extends Topic {
     private List<Topic> topics;
 
-    public Module(Course godCourse, Module godModule) {
-        super(godCourse, godModule);
+    public Module(String name) {
+        super(name);
     }
 
     public List<Topic> getTopics() {

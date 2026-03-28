@@ -6,9 +6,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import interfaces.Named;
+import interfaces.Updatable;
 import interfaces.Identifiable;
 
-public class Course implements Named, Identifiable{
+public class Course implements Named, Identifiable, Updatable<Course>{
     private final UUID id;
     private String name;
     private final List<Topic> topics;
@@ -54,5 +55,12 @@ public class Course implements Named, Identifiable{
 
             topic.setGodCourse(null);
         }
+    }
+
+    @Override
+    public void mergeFrom(Course other) {
+        this.name = other.name;
+
+        // this.topics = other.topics; при апдейте буду обновлять только аттрибуты
     }
 }

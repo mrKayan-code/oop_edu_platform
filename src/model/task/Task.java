@@ -5,8 +5,9 @@ import java.util.UUID;
 
 import interfaces.Identifiable;
 import interfaces.Named;
+import interfaces.Updatable;
 
-public abstract class Task implements Named, Identifiable {
+public abstract class Task implements Named, Identifiable, Updatable<Task> {
     private final UUID id;
     private String name;
     private String taskText;
@@ -14,8 +15,10 @@ public abstract class Task implements Named, Identifiable {
     private Topic godTopic;
     
 
-    public Task() {
+    public Task(String name) {
         this.id = UUID.randomUUID();
+
+        this.name = name;
     }
 
     @Override
@@ -55,5 +58,12 @@ public abstract class Task implements Named, Identifiable {
     @Override
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public void mergeFrom(Task other) {
+        this.example = other.example;
+        this.name = other.name;
+        this.taskText = other.taskText;
     }
 }

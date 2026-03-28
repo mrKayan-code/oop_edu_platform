@@ -1,15 +1,17 @@
 package model.task.algorithmic;
 
 import model.task.Task;
-import model.topic.Topic;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AlgorithmicTask extends Task {
-    private List<ProgrammingLang> programmingLangs;
+    private final List<ProgrammingLang> programmingLangs;
 
-    public AlgorithmicTask(Topic godTopic) {
-        super(godTopic);
+    public AlgorithmicTask(String name) {
+        super(name);
+
+        programmingLangs = new ArrayList<>();
     }
     public List<ProgrammingLang> getProgrammingLangs() {
         return programmingLangs;
@@ -23,4 +25,16 @@ public class AlgorithmicTask extends Task {
         programmingLangs.remove(programmingLang);
     }
 
+    @Override
+    public void mergeFrom(Task other) {
+        super.mergeFrom(other);
+        
+        if (!(other instanceof AlgorithmicTask)) {
+            return;
+        }
+
+        // AlgorithmicTask algo = (AlgorithmicTask) other;
+        
+        // this.programmingLangs = algo.programmingLangs;
+    }
 }

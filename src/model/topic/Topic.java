@@ -9,8 +9,9 @@ import java.util.UUID;
 
 import interfaces.Identifiable;
 import interfaces.Named;
+import interfaces.Updatable;
 
-public abstract class Topic implements Named, Identifiable {
+public abstract class Topic implements Named, Identifiable, Updatable<Topic> {
     private final UUID id;
     private String name;
     private final List<Task> tasks;
@@ -86,5 +87,11 @@ public abstract class Topic implements Named, Identifiable {
             
             task.setGodTopic(null);
         }
+    }
+
+    @Override
+    public void mergeFrom(Topic other) {
+        this.name = other.name;
+        this.visibility = other.visibility;
     }
 }

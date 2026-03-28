@@ -1,19 +1,21 @@
 package repository;
 
 import model.Course.Course;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.UUID;
+import java.util.Optional;
+import java.util.List;
+import java.util.ArrayList;
 
 public class CourseRepository {
-    private final Map<UUID, Course> database = new ConcurrentHashMap<>();
+    private final Map<UUID, Course> database = new HashMap<>();
 
-    public Course create(String name) {        
-        if (name == null || name.isBlank()) {
-            throw new IllegalArgumentException("Имя курса некорректное");
+    public Course create(Course course) {        
+        if (course == null || course.getName() == null || course.getName().isBlank()) {
+            throw new IllegalArgumentException("Имя темы некорректное");
         }
-        
-        Course course = new Course(name);
-        
+
         database.put(course.getId(), course);
         
         return course;
@@ -27,13 +29,15 @@ public class CourseRepository {
         return new ArrayList<>(database.values());
     }
 
-    public boolean update(UUID id, String newName) {
-        Course course = database.get(id);
-        if (course != null && newName != null && !newName.isBlank()) {
-            course.setName(newName);
-            return true;
+    public boolean update(UUID id, Course newCourse) {
+        if (!database.containsKey(id) || newCourse == null) {
+            return false;
         }
-        return false;
+        Course existing = database.get(id);
+
+        existing.mergeFrom(newCourse);
+
+        return true;
     }
 
     public boolean delete(UUID id) {
