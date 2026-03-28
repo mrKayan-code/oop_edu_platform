@@ -73,20 +73,28 @@ public abstract class Topic implements Named, Identifiable, Updatable<Topic> {
         this.godModule = godModule;
     }
 
-    public void addTask(Task task) {
+    public Task addTask(Task task) {
         if (task != null && !tasks.contains(task)) {
             tasks.add(task);
 
             task.setGodTopic(this);
+
+            return task;
         }
+
+        return null;
     }
 
-    public void removeTask(Task task) {
+    public Task removeTask(Task task) {
         if (task != null) {
             tasks.remove(task);
             
             task.setGodTopic(null);
+
+            return task;
         }
+
+        return null;
     }
 
     @Override

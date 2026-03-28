@@ -1,20 +1,57 @@
 package service;
 
+import java.util.UUID;
+
+import model.Course.Course;
+import model.task.Task;
+import model.topic.Module;
 import model.topic.Section;
 import model.topic.Topic;
-import repository.CourseRepository;
+import repository.TaskRepository;
 import repository.TopicRepository;
 
 public class TopicService {
-    private final TopicRepository topicRepo;
-    private final CourseRepository courseRepo;
+    private final TopicRepository topicRepository;
+    private final TaskRepository taskRepository;
 
-    public TopicService(TopicRepository topicRepo, CourseRepository courseRepo) {
-        this.topicRepo = topicRepo;
-        this.courseRepo = courseRepo;
+    public TopicService(TopicRepository topicRepository, TaskRepository taskRepository) {
+        this.topicRepository = topicRepository;
+        this.taskRepository = taskRepository;
     }
 
-    public Module createModule() {}
+    public Module createModule(String name) {
+        Module topic = new Module(name);
 
-    public Section createSection() {}
+        return (Module) topicRepository.create(topic);
+    }
+
+    public Section createSection(String name) {
+        Section topic = new Section(name);
+
+        return (Section) topicRepository.create(topic);
+    }
+
+    public boolean deleteTopic(UUID topicId) {
+        return topicRepository.delete(topicId);
+    }
+
+    public Task addTaskToTopic(UUID topicId, UUID taskId) {
+        Topic topic = topicRepository.findById(topicId)
+            .orElseThrow(() -> new IllegalArgumentException("Тема не найден"));
+
+        Task task = taskRepository.findById(taskId)
+            .orElseThrow(() -> new IllegalArgumentException("Таска не найдена"));
+
+        return topic.addTask(task);
+    }
+
+    public Task removeTaskFromTopic(UUID topicId, UUID taskId) {
+        Topic topic = topicRepository.findById(topicId)
+            .orElseThrow(() -> new IllegalArgumentException("Тема не найден"));
+
+        Task task = taskRepository.findById(taskId)
+            .orElseThrow(() -> new IllegalArgumentException("Таска не найдена"));
+
+        return topic.removeTask(task);
+    }
 }

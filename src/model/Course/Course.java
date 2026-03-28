@@ -41,20 +41,28 @@ public class Course implements Named, Identifiable, Updatable<Course>{
         }
     }
 
-    public void addTopic(Topic topic) {
+    public Topic addTopic(Topic topic) {
         if (topic != null && !topics.contains(topic)) {
             topics.add(topic);
 
             topic.setGodCourse(this);
+
+            return topic;
         }
+
+        return null;
     }
 
-    public void removeTopic(Topic topic) {
+    public Topic removeTopic(Topic topic) {
         if (topic != null) {
             topics.remove(topic);
 
             topic.setGodCourse(null);
+
+            return topic;
         }
+
+        return null;
     }
 
     @Override
