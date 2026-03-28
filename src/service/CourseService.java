@@ -16,11 +16,15 @@ public class CourseService {
         this.topicRepository = topicRepo;
     }
 
-    public Topic createTopicInCourse(UUID courseId, String topicName) {
-        Course course = courseRepository.findById(courseId)
-            .orElseThrow(() -> new IllegalArgumentException("Курс не найден: " + courseId));
+    public Course createCourse(String name) {
+        Course newCourse = new Course(name);
+        
+        return courseRepository.create(newCourse);
+    }
 
-        Topic newTopic = new TopicImpl(topicName);
+    public Topic addTopicToCourse(UUID courseId, Topic topic) {
+        Course course = courseRepository.findById(courseId)
+            .orElseThrow(() -> new IllegalArgumentException("Курс не найден"));
 
         topicRepository.create(newTopic);
 

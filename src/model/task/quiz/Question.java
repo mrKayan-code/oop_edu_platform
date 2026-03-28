@@ -17,6 +17,10 @@ public class Question {
         return questionText;
     }
 
+    public QuizTask getGodQuizTask() {
+        return godQuizTask;
+    }
+    
     public void setQuestionText(String questionText) {
         this.questionText = questionText;
     }
