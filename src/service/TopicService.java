@@ -1,8 +1,10 @@
 package service;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
-import model.Course.Course;
+import model.course.Course;
 import model.task.Task;
 import model.topic.Module;
 import model.topic.Section;
@@ -53,5 +55,9 @@ public class TopicService {
             .orElseThrow(() -> new IllegalArgumentException("Таска не найдена"));
 
         return topic.removeTask(task);
+    }
+
+    public List<Topic> getAllTopics() {
+        return Collections.unmodifiableList(topicRepository.findAll());
     }
 }

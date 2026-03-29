@@ -10,6 +10,8 @@ import model.task.with_repository.TaskWithRepository;
 import model.topic.Topic;
 import repository.TaskRepository;
 import repository.TopicRepository;
+
+import java.util.Collections;
 import java.util.List;
 
 public class TaskService {
@@ -59,5 +61,9 @@ public class TaskService {
         // if (task == null) return false;
 
         return taskRepository.delete(taskId);
+    }
+
+    public List<Task> getAllTasks() {
+        return Collections.unmodifiableList(taskRepository.findAll());
     }
 }

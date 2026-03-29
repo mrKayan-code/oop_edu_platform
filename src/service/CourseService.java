@@ -1,9 +1,12 @@
 package service;
 
-import model.Course.Course;
+import model.course.Course;
 import model.topic.Topic;
 import repository.CourseRepository;
 import repository.TopicRepository;
+
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 public class CourseService {
@@ -54,6 +57,23 @@ public class CourseService {
         topicRepository.delete(topicId); // композиция (топик не существует без своего год курса)
 
         return course.removeTopic(topic); // но я его верну но уже без годкурса
+    }
+
+    public List<Course> getAllCourses() {
+        return Collections.unmodifiableList(courseRepository.findAll());
+    }
+
+    public void updateCourseName(UUID courseId, String name) {
+        Course course = courseRepository.findById(courseId)
+            .orElseThrow(() -> new IllegalArgumentException("Курс не найден"));
+
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Имя курса некорректное");
+        }
+        
+        course.setName(name);
+
+        courseRepository.update(courseId, course);
     }
     
 }

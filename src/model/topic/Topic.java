@@ -1,6 +1,6 @@
 package model.topic;
 
-import model.Course.Course;
+import model.course.Course;
 import model.task.Task;
 import java.util.ArrayList;
 import java.util.Collections;
