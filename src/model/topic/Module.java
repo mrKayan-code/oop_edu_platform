@@ -6,9 +6,14 @@ public class Module extends Topic {
     private List<Topic> topics;
 
     public Module(String name) {
-        super(name);
+        super("Можуль "  + name);
     }
 
+    @Override
+    public void setName(String name) {
+        super.setName("Модуль " + name);
+    }
+    
     public List<Topic> getTopics() {
         return topics;
     } 

@@ -75,5 +75,5 @@ public class CourseService {
 
         courseRepository.update(courseId, course);
     }
-    
+
 }

@@ -32,7 +32,7 @@ public class CourseController {
 
             view.printOptions(options);
 
-            int choice = view.readInt("Доступные действия");
+            int choice = view.readInt("");
             
             switch (choice) {
                 case 1 -> createCourse();
@@ -66,7 +66,7 @@ public class CourseController {
         List<Course> courses = courseService.getAllCourses();
         
         if (courses.isEmpty()) {
-            view.printError("Нет курсов");
+            view.printInfo("Нет курсов");
             return;
         }
         

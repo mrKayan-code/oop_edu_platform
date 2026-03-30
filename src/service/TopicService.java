@@ -60,4 +60,17 @@ public class TopicService {
     public List<Topic> getAllTopics() {
         return Collections.unmodifiableList(topicRepository.findAll());
     }
+
+    public void updateTopicName(UUID topicId, String name) {
+        Topic topic = topicRepository.findById(topicId)
+            .orElseThrow(() -> new IllegalArgumentException("Курс не найден"));
+
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Имя курса некорректное");
+        }
+        
+        topic.setName(name);
+
+        topicRepository.update(topicId, topic);
+    }
 }
