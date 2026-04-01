@@ -34,7 +34,11 @@ public class Question implements Identifiable {
     }
 
     public void setQuestionBody(QuestionBody questionBody) {
-        this.questionBody = questionBody;
+        if (questionBody != null && questionBody.getType() == this.questionType) {
+            this.questionBody = questionBody;
+        } else if (questionBody != null) {
+            throw new IllegalArgumentException("Тип предложенного qustionBody не корелирует с имеющимся типом");
+        }
     }
 
     @Override
