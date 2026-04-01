@@ -2,6 +2,7 @@ import java.util.Scanner;
 
 import controller.CourseController;
 import controller.MenuConroller;
+import controller.TopicController;
 import repository.CourseRepository;
 import repository.TaskRepository;
 import repository.TopicRepository;
@@ -24,9 +25,10 @@ public class App {
         ConsoleView view = new ConsoleView(scanner);
         
         CourseController courseController = new CourseController(view, courseService);
+        TopicController topicController = new TopicController(view, topicService, courseService);
 
 
-        MenuConroller menuConroller = new MenuConroller(view, courseController, null, null);
+        MenuConroller menuConroller = new MenuConroller(view, courseController, topicController, null);
 
         menuConroller.run();
     }

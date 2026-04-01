@@ -8,6 +8,8 @@ import repository.TopicRepository;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import model.topic.Module;
 
 public class CourseService {
     private final CourseRepository courseRepository;
@@ -29,7 +31,9 @@ public class CourseService {
         
         if (course == null) return false;
 
-        for (Topic topic : course.getTopics()) {
+        for (Topic topic : topicRepository.findAll().stream()
+                                                    .filter(t -> t.getGodCourse() == course)
+                                                    .collect(Collectors.toList())) {
             topicRepository.delete(topic.getId()); // композиция
         }
 
@@ -47,18 +51,6 @@ public class CourseService {
         return course.addTopic(topic);
     }
 
-    public Topic removeTopicFromCourse(UUID courseId, UUID topicId) {
-        Course course = courseRepository.findById(courseId)
-            .orElseThrow(() -> new IllegalArgumentException("Курс не найден"));
-
-        Topic topic = topicRepository.findById(topicId)
-            .orElseThrow(() -> new IllegalArgumentException("Тема не найдена"));
-
-        topicRepository.delete(topicId); // композиция (топик не существует без своего год курса)
-
-        return course.removeTopic(topic); // но я его верну но уже без годкурса
-    }
-
     public List<Course> getAllCourses() {
         return Collections.unmodifiableList(courseRepository.findAll());
     }
@@ -74,6 +66,27 @@ public class CourseService {
         course.setName(name);
 
         courseRepository.update(courseId, course);
+    }
+
+    public void moveTopicToCourse(UUID courseId, UUID topicId) {
+        Course course = courseRepository.findById(courseId)
+            .orElseThrow(() -> new IllegalArgumentException("Курс не найден"));
+
+        Topic topic = topicRepository.findById(topicId)
+            .orElseThrow(() -> new IllegalArgumentException("Тема не найдена"));
+
+        if (topic.getGodCourse() != null) {
+            Course gCourse = topic.getGodCourse();
+            gCourse.removeTopic(topic);
+        }
+
+        if (topic instanceof Module module) {
+            for (Topic nestedTopic : module.getTopics()) {
+                moveTopicToCourse(courseId, nestedTopic.getId());
+            }
+        }
+
+        course.addTopic(topic);
     }
 
 }

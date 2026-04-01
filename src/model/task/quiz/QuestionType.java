@@ -1,7 +1,18 @@
 package model.task.quiz;
 
 public enum QuestionType {
-    ONE_OF_TWO,
-    ONE_OF_SEVERAL,
-    FREE_ANSWER
+    BINARY("Да/Нет"),
+    MULTIPLE_CHOICE("Выбор из нескольких"),
+    FREE_ANSWER("Свободный ответ");
+    
+    private final String displayName;
+    
+    QuestionType(String displayName) {
+        this.displayName = displayName;
+    }
+    
+    @Override
+    public String toString() {
+        return displayName;
+    }
 }

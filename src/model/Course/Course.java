@@ -7,9 +7,10 @@ import java.util.List;
 import java.util.UUID;
 import interfaces.Named;
 import interfaces.Updatable;
+import interfaces.ContainerOfTopics;
 import interfaces.Identifiable;
 
-public class Course implements Named, Identifiable, Updatable<Course>{
+public class Course implements Named, Identifiable, Updatable<Course>, ContainerOfTopics{
     private final UUID id;
     private String name;
     private final List<Topic> topics;

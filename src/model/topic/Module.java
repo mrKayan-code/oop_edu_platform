@@ -1,12 +1,17 @@
 package model.topic;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-public class Module extends Topic {
+import interfaces.ContainerOfTopics;
+
+public class Module extends Topic implements ContainerOfTopics {
     private List<Topic> topics;
 
     public Module(String name) {
-        super("Можуль "  + name);
+        super("Модуль "  + name);
+        this.topics = new ArrayList<>();
     }
 
     @Override
@@ -15,15 +20,30 @@ public class Module extends Topic {
     }
     
     public List<Topic> getTopics() {
-        return topics;
+        return Collections.unmodifiableList(topics);
     } 
 
     public void addTopic(Topic topic) {
-        topics.add(topic);
+        if (topic != null && !topics.contains(topic)) {
+            topics.add(topic);
+            
+            if (topic.getGodCourse() != null && topic.getGodCourse() != this.getGodCourse()) {
+                topic.getGodCourse().removeTopic(topic);
+            }
+            topic.setGodModule(this);
+        }
     }
 
-    public void removeTopic(Topic topic) {
-        topics.remove(topic);
+    public Topic removeTopic(Topic topic) {
+        if (topic != null) {
+            topics.remove(topic);
+
+            topic.setGodModule(null);
+
+            return topic;
+        }
+
+        return null;
     }
 
 }

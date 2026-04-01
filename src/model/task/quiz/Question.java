@@ -1,12 +1,20 @@
 package model.task.quiz;
 
-public class Question {
-    private QuestionType questionType;    
-    private QuizTask godQuizTask;
+import java.util.UUID;
+
+import interfaces.Identifiable;
+
+public class Question implements Identifiable {
+    private final UUID id;
+    private final QuestionType questionType;    
+    private final QuizTask godQuizTask;
+    private QuestionBody questionBody;
     private String questionText;
     
-    public Question(QuizTask godQuizTask) {
+    public Question(QuizTask godQuizTask, QuestionType questionType) {
         this.godQuizTask = godQuizTask;
+        this.questionType = questionType;
+        id = UUID.randomUUID();
     }
     
     public QuestionType getQuestionType() {
@@ -25,5 +33,12 @@ public class Question {
         this.questionText = questionText;
     }
 
-    //TODO(questionBody в зависимости от )
+    public void setQuestionBody(QuestionBody questionBody) {
+        this.questionBody = questionBody;
+    }
+
+    @Override
+    public UUID getId() {
+        return id;
+    }
 }

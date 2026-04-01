@@ -29,7 +29,7 @@ public class MenuConroller {
     private void showMenu() {
         view.clear();
 
-        view.printHeader("МЕНЭ");
+        view.printHeader("МЕНЮ");
 
         List<String> options = List.of(
             "Управление курсами по воздуханству",
@@ -43,19 +43,13 @@ public class MenuConroller {
 
         switch (choice) {
             case 1 -> courseController.showCourseMenu();
-            case 2 -> showTopicMenu();
+            case 2 -> topicController.showTopicMenu();
             case 3 -> showTaskMenu();
             case 0 -> running = false;
             default -> view.printError("Неправильно вводишь");
         }
 
         view.awaitContinue();
-    }
-
-
-    private void showTopicMenu() {
-
-        
     }
 
     private void showTaskMenu() {
