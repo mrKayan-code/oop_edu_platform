@@ -22,7 +22,8 @@ public class Question implements Identifiable {
     }
 
     public String getQuestionText() {
-        return questionText;
+        String body = questionBody != null ? questionBody.getDisplayText() : "";
+        return questionText + body;
     }
 
     public QuizTask getGodQuizTask() {
@@ -39,6 +40,18 @@ public class Question implements Identifiable {
         } else if (questionBody != null) {
             throw new IllegalArgumentException("Тип предложенного qustionBody не корелирует с имеющимся типом");
         }
+    }
+
+    public QuestionBody getQuestionBody() {
+        return this.questionBody;
+    }
+
+    public boolean checkAnswer(String userAnswer) {
+        return questionBody != null ? questionBody.checkAnswer(userAnswer) : false;
+    }
+
+    public String getCorrectAnswerText() {
+        return questionBody != null ? questionBody.getCorrectAnswerText() : "Не задан";
     }
 
     @Override
