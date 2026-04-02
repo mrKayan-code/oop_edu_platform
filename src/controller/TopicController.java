@@ -63,7 +63,7 @@ public class TopicController {
         }
 
         for (Course course : courses) {
-            view.println("\n+++>" + course.getName());
+            view.println("\n++>" + course.getName());
             
             List<Topic> rootTopics = course.getTopics().stream()
                 .filter(t -> t.getGodModule() == null)
@@ -79,8 +79,9 @@ public class TopicController {
         String indent = "  ".repeat(depth);
         String typeSymb = topic instanceof Module ? "m" : topic instanceof Section ? "s" : "-";
         String tasksInfo = topic.getTasks().isEmpty() ? "" : " [" + topic.getTasks().size() + " задач внутри]";
-        
-        view.println(indent + typeSymb + " " + topic.getName() + tasksInfo);
+        String visibilitySymb = topic.getVisibility() ? " <O>" : " <->";
+
+        view.println(indent + typeSymb + " " + topic.getName() + tasksInfo + visibilitySymb);
         
         if (topic instanceof Module module) {
             for (Topic sub : module.getTopics()) {
@@ -125,6 +126,8 @@ public class TopicController {
                 topicService.moveTopicToModule(module.getId(), newTopic.getId());
             }
             view.printSuccess("Тема создана: " + newTopic.getName());
+
+            setTopicVisibility(newTopic);
         } catch (Exception e) {
             view.printError(e.getMessage());
         }
@@ -196,6 +199,10 @@ public class TopicController {
         Topic topic = topics.get(index);
         String newName = view.readRequired("Новое название");
         
+        if (view.readBoolean("Изменить видимость темы?")) {
+            setTopicVisibility(topic);
+        }
+
         try {
             topicService.updateTopicName(topic.getId(), newName);
             view.printSuccess("Тема обновлена: " + topic.getName());
@@ -262,5 +269,17 @@ public class TopicController {
         String name = view.readRequired("Название секты");
 
         return topicService.createSection(name);
+    }
+
+    private void setTopicVisibility(Topic topic) {
+        view.printSubHeader("Установить видимость");
+        try {
+            topicService.setTopicVisibility(topic.getId(), 
+                view.readBoolean("Сделать " + topic.getName() + "видимой?")
+            );
+        } catch (Exception e) {
+            view.printError(e.getMessage());
+        }
+        
     }
 }

@@ -9,14 +9,16 @@ public class MenuConroller {
     private final CourseController courseController;
     private final TopicController topicController;
     private final TaskController taskController;
+    private final SolutionController solutionController;
 
     private boolean running = true;
 
-    public MenuConroller(ConsoleView view, CourseController courseController, TopicController topicController, TaskController taskController) {
+    public MenuConroller(ConsoleView view, CourseController courseController, TopicController topicController, TaskController taskController, SolutionController solutionController) {
         this.view = view;
         this.courseController = courseController;
         this.topicController = topicController;
         this.taskController = taskController;
+        this.solutionController = solutionController;
     }
 
     public void run() {
@@ -34,7 +36,8 @@ public class MenuConroller {
         List<String> options = List.of(
             "Управление курсами по воздуханству",
             "Управление всякими темками",
-            "Управление задачами"
+            "Управление задачами",
+            "Управление решениями"
         );
 
         view.printOptions(options);
@@ -44,16 +47,12 @@ public class MenuConroller {
         switch (choice) {
             case 1 -> courseController.showCourseMenu();
             case 2 -> topicController.showTopicMenu();
-            case 3 -> showTaskMenu();
+            case 3 -> taskController.showTaskMenu();
+            case 4 -> solutionController.showSolutionMenu();
             case 0 -> running = false;
             default -> view.printError("Неправильно вводишь");
         }
 
         view.awaitContinue();
-    }
-
-    private void showTaskMenu() {
-
-        
     }
 }

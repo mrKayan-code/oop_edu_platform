@@ -139,4 +139,11 @@ public class TopicService {
             return isTopicInModuleChildren(topic.getGodModule().getId(), moduleId);
         }
     }
+
+    public void setTopicVisibility(UUID topicId, boolean visibility) {
+        Topic topic = topicRepository.findById(topicId)
+            .orElseThrow(() -> new IllegalArgumentException("Тема не найдена"));
+
+        topic.setVisibility(visibility);
+    }
 }

@@ -2,11 +2,15 @@ import java.util.Scanner;
 
 import controller.CourseController;
 import controller.MenuConroller;
+import controller.SolutionController;
+import controller.TaskController;
 import controller.TopicController;
 import repository.CourseRepository;
+import repository.SolutionRepository;
 import repository.TaskRepository;
 import repository.TopicRepository;
 import service.CourseService;
+import service.SolutionService;
 import service.TaskService;
 import service.TopicService;
 import view.ConsoleView;
@@ -16,19 +20,23 @@ public class App {
         CourseRepository courseRepository = new CourseRepository();
         TopicRepository topicRepository = new TopicRepository();
         TaskRepository taskRepository = new TaskRepository();
+        SolutionRepository solutionRepository = new SolutionRepository();
 
         CourseService courseService = new CourseService(courseRepository, topicRepository);
         TopicService topicService = new TopicService(topicRepository, taskRepository);
         TaskService taskService = new TaskService(taskRepository, topicRepository);
+        SolutionService solutionService = new SolutionService(solutionRepository);
 
         Scanner scanner = new Scanner(System.in, "cp866");
         ConsoleView view = new ConsoleView(scanner);
         
         CourseController courseController = new CourseController(view, courseService);
         TopicController topicController = new TopicController(view, topicService, courseService);
+        TaskController taskController = new TaskController(view, taskService, topicService);
+        SolutionController solutionController = new SolutionController(view, solutionService, courseService)
 
 
-        MenuConroller menuConroller = new MenuConroller(view, courseController, topicController, null);
+        MenuConroller menuConroller = new MenuConroller(view, courseController, topicController, taskController);
 
         menuConroller.run();
     }
