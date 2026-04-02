@@ -41,7 +41,7 @@ public class TopicController {
             );
             view.printOptions(options);
 
-            int choice = view.readInt("Выберите действие");
+            int choice = view.readInt("");
 
             switch (choice) {
                 case 1 -> createTopic();
@@ -64,7 +64,6 @@ public class TopicController {
 
         for (Course course : courses) {
             view.println("\n+++>" + course.getName());
-            view.println("─".repeat(40));
             
             List<Topic> rootTopics = course.getTopics().stream()
                 .filter(t -> t.getGodModule() == null)
@@ -78,10 +77,10 @@ public class TopicController {
 
     private void printTopicTree(Topic topic, int depth) {
         String indent = "  ".repeat(depth);
-        String icon = topic instanceof Module ? "()" : topic instanceof Section ? "-" : "?";
-        String tasksInfo = topic.getTasks().isEmpty() ? "" : " [" + topic.getTasks().size() + " задач]";
+        String typeSymb = topic instanceof Module ? "m" : topic instanceof Section ? "s" : "-";
+        String tasksInfo = topic.getTasks().isEmpty() ? "" : " [" + topic.getTasks().size() + " задач внутри]";
         
-        view.println(indent + icon + topic.getName() + tasksInfo);
+        view.println(indent + typeSymb + " " + topic.getName() + tasksInfo);
         
         if (topic instanceof Module module) {
             for (Topic sub : module.getTopics()) {

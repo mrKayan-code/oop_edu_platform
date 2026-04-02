@@ -39,7 +39,7 @@ public class MenuConroller {
 
         view.printOptions(options);
 
-        int choice = view.readInt("Доступные действия");
+        int choice = view.readInt("");
 
         switch (choice) {
             case 1 -> courseController.showCourseMenu();

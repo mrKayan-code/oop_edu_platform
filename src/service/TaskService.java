@@ -46,11 +46,8 @@ public class TaskService {
         return (AlgorithmicTask) taskRepository.create(task);
     }
 
-    public QuizTask createQuizTask(String name, String taskText, String example) {
+    public QuizTask createQuizTask(String name) {
         QuizTask task = new QuizTask(name);
-
-        task.setTaskText(taskText);
-        task.setExample(example);
 
         return (QuizTask) taskRepository.create(task);
     }
@@ -65,5 +62,38 @@ public class TaskService {
 
     public List<Task> getAllTasks() {
         return Collections.unmodifiableList(taskRepository.findAll());
+    }
+
+    public void updateTaskName(UUID taskId, String newName) {
+        Task task = taskRepository.findById(taskId)
+            .orElseThrow(() -> new IllegalArgumentException("Задача не найдена"));
+
+        if (newName == null || newName.isBlank()) {
+            throw new IllegalArgumentException("Имя задачи некорректное");
+        }
+        
+        task.setName(newName);
+
+        taskRepository.update(taskId, task);
+    }
+
+    public void updateTaskText(UUID taskId, String newTaskText) {
+        Task task = taskRepository.findById(taskId)
+            .orElseThrow(() -> new IllegalArgumentException("Задача не найдена"));
+
+        
+        task.setTaskText(newTaskText);
+
+        taskRepository.update(taskId, task);
+    }
+
+    public void updateTaskExample(UUID taskId, String newExample) {
+        Task task = taskRepository.findById(taskId)
+            .orElseThrow(() -> new IllegalArgumentException("Задача не найдена"));
+
+        
+        task.setExample(newExample);
+
+        taskRepository.update(taskId, task);
     }
 }
