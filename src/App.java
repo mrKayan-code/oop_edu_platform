@@ -33,10 +33,10 @@ public class App {
         CourseController courseController = new CourseController(view, courseService);
         TopicController topicController = new TopicController(view, topicService, courseService);
         TaskController taskController = new TaskController(view, taskService, topicService);
-        SolutionController solutionController = new SolutionController(view, solutionService, courseService)
+        SolutionController solutionController = new SolutionController(view, solutionService, courseService);
 
 
-        MenuConroller menuConroller = new MenuConroller(view, courseController, topicController, taskController);
+        MenuConroller menuConroller = new MenuConroller(view, courseController, topicController, taskController, solutionController);
 
         menuConroller.run();
     }
