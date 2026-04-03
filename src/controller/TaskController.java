@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import model.task.Task;
 import model.task.algorithmic.AlgorithmicTask;
+import model.task.algorithmic.ProgrammingLang;
 import model.task.quiz.Question;
 import model.task.quiz.QuizTask;
 import model.task.with_repository.TaskWithRepository;
@@ -116,9 +117,11 @@ public class TaskController {
         String name = view.readRequired("Название");
         String text = view.readRequired("Текст задания");
         String example = view.readLine("Пример");
+
+        List<ProgrammingLang> selectedLanguages = selectProgrammingLanguages();
         
         try {
-            AlgorithmicTask task = taskService.createAlgorithmicTask(name, text, example, List.of());
+            AlgorithmicTask task = taskService.createAlgorithmicTask(name, text, example, selectedLanguages);
             view.printSuccess("Задача создана: " + task.getName());
             
             if (view.readBoolean("Назначить задачу в темку?")) {
@@ -127,6 +130,39 @@ public class TaskController {
         } catch (Exception e) {
             view.printError(e.getMessage());
         }
+    }
+
+    private List<ProgrammingLang> selectProgrammingLanguages() {
+        view.printSubHeader("Выбери языки");
+        
+        List<ProgrammingLang> allLangs = List.of(ProgrammingLang.values());
+        
+        view.printList(allLangs, (l) -> l.toString());
+        view.println("  0. все");
+        
+        String input = view.readLine("Номера");
+        
+        
+        if (input.isBlank() || input.trim().equals("0")) {
+            return List.copyOf(allLangs);
+        }
+
+        List<ProgrammingLang> selected = new ArrayList<>();
+        String[] parts = input.trim().split("\\s+");
+        
+        for (String part : parts) {
+            try {
+                int idx = Integer.parseInt(part) - 1;
+                if (idx >= 0 && idx < allLangs.size()) {
+                    ProgrammingLang lang = allLangs.get(idx);
+                    if (!selected.contains(lang)) {
+                        selected.add(lang);
+                    }
+                }
+            } catch (NumberFormatException e) { }
+        }
+        
+        return selected;
     }
 
     private void createQuizTask() {

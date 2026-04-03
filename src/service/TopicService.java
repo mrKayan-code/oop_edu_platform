@@ -37,17 +37,21 @@ public class TopicService {
     public boolean deleteTopic(UUID topicId) {
         Topic topic = topicRepository.findById(topicId).orElseThrow(() -> new IllegalArgumentException("Такой темы нет"));
         
-        if (topic.getGodModule() != null) {
-            topic.getGodModule().removeTopic(topic);
-        }
+        
 
         if (topic instanceof Module module) {
-            for (Topic nestedTopic : module.getTopics()) {
-                deleteTopic(nestedTopic.getId());
+            for (Topic nestedTopic : List.copyOf(module.getTopics())) {
+                System.out.print(nestedTopic.getName());
+                removeTopicFromModule(topicId, nestedTopic.getId());
             }
         }
 
         topic.getGodCourse().removeTopic(topic);
+        if (topic.getGodModule() != null) {
+            topic.getGodModule().removeTopic(topic);
+        }
+
+        
 
         return topicRepository.delete(topicId);
     }
@@ -98,11 +102,10 @@ public class TopicService {
             throw new IllegalArgumentException("предоолженный модуль не модуль");
         }
 
+        System.out.print(module.getName());
+
         Topic topic = topicRepository.findById(topicId)
             .orElseThrow(() -> new IllegalArgumentException("Тема не найдена"));
-
-
-        module.removeTopic(topic);
 
         return module.removeTopic(topic);
     }

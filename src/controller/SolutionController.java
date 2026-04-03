@@ -72,11 +72,11 @@ public class SolutionController {
 
         if (task instanceof QuizTask quiz) {
             submitQuizSolution(quiz);
-        } else {
-            submitSimpleSolution(task);
+        } else if (task instanceof AlgorithmicTask algo){
+            submitAlgorithmicTasksSolution(algo);
+        } else if (task instanceof TaskWithRepository repoTask) {
+            submitTaskTaskWithRepositorySolution(repoTask);
         }
-
-
     }
     
     private Course chooseCourse() {
@@ -161,9 +161,50 @@ public class SolutionController {
         return tasks.get(index);
     }
 
-    private void submitSimpleSolution(Task task) {
+    // private void submitSimpleSolution(Task task) {
+    //     view.printSubHeader(task.getName());
+    //     view.println("Текст задачи: " + task.getTaskText());
+        
+    //     if (task.getExample() != null && !task.getExample().isBlank()) {
+    //         view.printInfo("Пример: " + task.getExample());
+    //     }
+
+    //     String solutionText;
+    //     solutionText = view.readRequired("Ваш ответ");
+
+    //     try {
+    //         solutionService.submitSolution(task, solutionText);
+    //         view.printSuccess("Решение отправлено");
+    //     } catch (Exception e) {
+    //         view.printError(e.getMessage());
+    //     }
+    // }
+
+    private void submitAlgorithmicTasksSolution(AlgorithmicTask task) {
         view.printSubHeader(task.getName());
         view.println("Текст задачи: " + task.getTaskText());
+        view.println("Доступные языки");
+        view.printList(task.getProgrammingLangs(), (l) -> l.toString());
+        
+        if (task.getExample() != null && !task.getExample().isBlank()) {
+            view.printInfo("Пример: " + task.getExample());
+        }
+
+        String solutionText;
+        solutionText = view.readRequired("Ваш ответ");
+
+        try {
+            solutionService.submitSolution(task, solutionText);
+            view.printSuccess("Решение отправлено");
+        } catch (Exception e) {
+            view.printError(e.getMessage());
+        }
+    }
+
+    private void submitTaskTaskWithRepositorySolution(TaskWithRepository task) {
+        view.printSubHeader(task.getName());
+        view.println("Текст задачи: " + task.getTaskText());
+        view.println("Repository: " + task.getRepositoryLink());
         
         if (task.getExample() != null && !task.getExample().isBlank()) {
             view.printInfo("Пример: " + task.getExample());
